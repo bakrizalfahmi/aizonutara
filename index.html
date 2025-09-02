@@ -6,7 +6,7 @@
     <title>Portal Persembahan Slaid</title>
     <!-- Memuatkan Tailwind CSS untuk penggayaan -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         /* Menggunakan fon Inter */
         body {
@@ -17,16 +17,51 @@
             display: none;
             opacity: 0;
             transition: opacity 0.7s ease-in-out;
+            align-items: center;
+            justify-content: center;
         }
         .slide.active {
             display: flex; /* Menggunakan flex untuk memusatkan kandungan */
             opacity: 1;
         }
 
-        /* Nisbah bidang 16:9 untuk bekas slaid */
-        .slide-aspect-ratio {
-            aspect-ratio: 16 / 9;
+        /* --- PENAMBAHBAIKAN RESPONSIVITI --- */
+        
+        /* Kontena utama dibuat responsif menggunakan unit viewport */
+        #presentation-container {
+            width: 95vw;
+            height: calc(95vw * 9 / 16); /* Mengekalkan nisbah 16:9 berdasarkan lebar */
+            max-height: 95vh; /* Memastikan ia tidak melebihi ketinggian skrin */
+            max-width: calc(95vh * 16 / 9); /* Mengekalkan nisbah 16:9 berdasarkan tinggi */
+            margin: auto; /* Memusatkan kontena */
+            display: flex;
+            flex-direction: column;
         }
+        
+        #slides-container {
+            flex-grow: 1; /* Memastikan bekas slaid mengisi ruang yang ada */
+        }
+
+        /* Gaya khas apabila dalam mod skrin penuh untuk memaksimumkan ruang */
+        #main-content:fullscreen #presentation-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 100vw;
+            max-height: 100vh;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        #main-content:fullscreen {
+            padding: 0;
+            background-color: #000; /* Latar belakang hitam untuk pengalaman imersif */
+        }
+
+        /* Saiz fon responsif menggunakan clamp() */
+        .responsive-h1 { font-size: clamp(1.5rem, 4vw, 2.75rem); }
+        .responsive-h2 { font-size: clamp(1.25rem, 3vw, 2.25rem); }
+        .responsive-p { font-size: clamp(0.875rem, 1.8vw, 1.125rem); }
+        .responsive-text-sm { font-size: clamp(0.75rem, 1.5vw, 1rem); }
+        .responsive-text-xs { font-size: clamp(0.65rem, 1.2vw, 0.875rem); }
 
         /* Animasi Latar Belakang untuk Slaid 1 */
         @keyframes gradient-animation {
@@ -40,18 +75,11 @@
             animation: gradient-animation 15s ease infinite;
         }
 
-        /* Styling tambahan untuk slaid interaktif */
-        .interactive-btn {
+        /* Styling tambahan untuk butang */
+        .interactive-btn, .link-btn {
             transition: all 0.2s ease-in-out;
         }
-        .interactive-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .link-btn {
-             transition: all 0.2s ease-in-out;
-        }
-        .link-btn:hover {
+        .interactive-btn:hover, .link-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
@@ -59,97 +87,104 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div id="main-content" class="w-full max-w-6xl mx-auto p-4">
+    <div id="main-content" class="w-full h-full p-4 flex items-center justify-center">
         <!-- Paparan Pemasa Luaran -->
-        <div id="timer-container" class="mb-4 text-center hidden">
-            <span class="text-gray-600 font-medium">Masa Baki Sesi Hands On:</span>
-            <span id="timer-display" class="text-2xl font-bold text-indigo-600 tracking-wider ml-2">30:00</span>
+        <div id="timer-container" class="absolute top-4 left-1/2 -translate-x-1/2 text-center hidden z-10 bg-white/80 backdrop-blur-sm px-4 py-1 rounded-full shadow-md">
+            <span class="text-gray-600 font-medium text-sm">Masa Baki Sesi Hands On:</span>
+            <span id="timer-display" class="text-xl font-bold text-indigo-600 tracking-wider ml-2">30:00</span>
         </div>
 
         <!-- Kontena utama untuk persembahan -->
         <div id="presentation-container" class="bg-white rounded-xl shadow-2xl overflow-hidden">
             <!-- Kontena untuk semua slaid -->
-            <div id="slides-container" class="relative w-full slide-aspect-ratio">
+            <div id="slides-container" class="relative w-full">
                 
                 <!-- Slaid 1 -->
-                <div class="slide active animated-gradient absolute w-full h-full p-8 flex-col items-center justify-center text-center text-white">
-                    <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-tight">BENGKEL KERJA PEMBINAAN BAHAN BACAAN INTERAKTIF BERASASKAN BUKU TEKS MENGGUNAKAN APLIKASI AI UNTUK GURU-GURU BAHASA INGGERIS TAHUN 2 ZON UTARA</h1>
-                    <p class="text-lg md:text-xl font-semibold mt-2">PERINGKAT JABATAN PENDIDIKAN NEGERI KEDAH TAHUN 2025</p>
-                    <p class="text-md md:text-lg mt-8 bg-black bg-opacity-20 px-4 py-2 rounded-lg">3 & 4 September 2025 | Pejabat Pendidikan Daerah Padang Terap</p>
+                <div class="slide active animated-gradient absolute w-full h-full p-8 flex-col text-center text-white">
+                    <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-tight responsive-h1">BENGKEL KERJA PEMBINAAN BAHAN BACAAN INTERAKTIF BERASASKAN BUKU TEKS MENGGUNAKAN APLIKASI AI UNTUK GURU-GURU BAHASA INGGERIS TAHUN 2 ZON UTARA</h1>
+                    <p class="text-lg md:text-xl font-semibold mt-2 responsive-p">PERINGKAT JABATAN PENDIDIKAN NEGERI KEDAH TAHUN 2025</p>
+                    <p class="text-md md:text-lg mt-8 bg-black bg-opacity-20 px-4 py-2 rounded-lg responsive-text-sm">3 & 4 September 2025 | Pejabat Pendidikan Daerah Padang Terap</p>
                 </div>
 
-                <!-- Slaid 2: Info Penceramah -->
-                <div class="slide absolute w-full h-full p-4 md:p-6 flex flex-col items-center bg-gray-100 text-gray-800 overflow-y-auto">
-                    <!-- Banner Penceramah -->
-                    <div class="w-full max-w-4xl bg-white shadow-lg rounded-xl p-4 flex items-center mb-4 border-l-4 border-indigo-500">
-                        <img src="https://i.ibb.co/0RWY2BYL/f6910be6-6b82-48a6-93dd-da2d997d2c53.jpg" alt="Gambar Profil Bakrizal Fahmi" class="w-20 h-20 md:w-24 md-h-24 rounded-full shadow-md border-2 border-white object-cover" onerror="this.onerror=null;this.src='https://placehold.co/96x96/EFEFEF/AAAAAA?text=Gambar';">
-                        <div class="ml-4 flex-1">
-                            <h2 class="text-xl md:text-2xl font-bold text-gray-900">Tc. Bakrizal Fahmi bin Abu Bakar</h2>
-                            <p class="text-sm md:text-base text-gray-700">Penolong Pegawai Teknologi Maklumat</p>
-                            <p class="text-xs text-gray-500 mt-1">
-                                Pasukan Teknikal ICT Sekolah (Unit 1) Baling / Sektor Pengurusan Maklumat, JPN Kedah
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Kandungan (Projek & Buku) -->
-                    <div class="w-full max-w-4xl flex-grow grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Kolum Projek -->
-                        <div class="bg-white p-4 rounded-xl shadow-lg">
-                            <h4 class="text-lg font-semibold border-b-2 border-indigo-200 pb-2 mb-3">Projek</h4>
-                            <ul class="space-y-3 text-sm text-left">
-                                <li>
-                                    <strong class="font-semibold text-gray-700">Sistem Pengurusan Pemusatan Teknikal ICT Sekolah Kedah (S3PTIS)</strong>
-                                    <p class="text-xs text-gray-600 pl-4">Pembangunan sistem pelaporan untuk PTIS Kedah & PPD Cameron Highlands. <a href="https://www.ptiskedah.net" target="_blank" class="text-blue-600 hover:underline">https://www.ptiskedah.net</a></p>
-                                </li>
-                                <li>
-                                    <strong class="font-semibold text-gray-700">Smart Booking System</strong>
-                                    <p class="text-xs text-gray-600 pl-4">Digunakan di pelbagai PPD, IPGM & Sekolah.</p>
-                                </li>
-                                <li><strong class="font-semibold text-gray-700">Sistem Permohonan dan Semakan Kelas Seliaan Negeri (KSN) Kedah</strong></li>
-                                <li><strong class="font-semibold text-gray-700">Sistem Semakan Keputusan</strong></li>
-                                <li><strong class="font-semibold text-gray-700">Smart PSO & Sistem Cabutan Slip Sekolah</strong></li>
-                            </ul>
-                        </div>
-
-                        <!-- Kolum Buku & Projek Lain -->
-                        <div class="bg-white p-4 rounded-xl shadow-lg flex flex-col space-y-4">
-                            <div>
-                                <h4 class="text-lg font-semibold border-b-2 border-indigo-200 pb-2 mb-3">Buku</h4>
-                                <p class="text-sm font-semibold text-gray-700">Gemini AI : Toolkit Rahsia Setiap PTIS</p>
+                <!-- Slaid 2: Info Penceramah (DIKEMASKINI) -->
+                <div class="slide absolute w-full h-full p-6 md:p-8 flex-col bg-gradient-to-br from-gray-50 to-indigo-100 text-gray-800 overflow-y-auto">
+                    <div class="w-full max-w-5xl mx-auto">
+                        <!-- Bahagian Profil Utama -->
+                        <div class="flex flex-col md:flex-row items-center text-center md:text-left">
+                            <img src="https://i.ibb.co/0RWY2BYL/f6910be6-6b82-48a6-93dd-da2d997d2c53.jpg" alt="Gambar Profil Bakrizal Fahmi" 
+                                 class="w-32 h-32 md:w-48 md:h-48 rounded-full shadow-2xl object-cover border-4 border-white ring-4 ring-indigo-300" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/192x192/EFEFEF/AAAAAA?text=Gambar';">
+                            <div class="md:ml-8 mt-4 md:mt-0">
+                                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight responsive-h1">Tc. Bakrizal Fahmi bin Abu Bakar</h2>
+                                <p class="text-lg md:text-xl text-indigo-600 font-medium mt-1 responsive-p">Penolong Pegawai Teknologi Maklumat</p>
+                                <p class="text-sm text-gray-500 mt-2 max-w-lg responsive-text-sm">
+                                    Pasukan Teknikal ICT Sekolah (Unit 1) Baling / Sektor Pengurusan Maklumat, JPN Kedah
+                                </p>
                             </div>
+                        </div>
+                        
+                        <!-- Bahagian Kandungan (Projek, Buku, dll.) -->
+                        <div class="mt-8 md:mt-10 w-full text-left">
+                            <!-- Projek -->
                             <div>
-                                <h4 class="text-lg font-semibold border-b-2 border-indigo-200 pb-2 mb-3">Lain-lain</h4>
-                                <ul class="space-y-2 text-sm text-left list-disc list-inside">
-                                    <li>Sistem Pengurusan Kokurikulum</li>
-                                    <li>Sistem Perekodan Eviden PAJSK</li>
-                                </ul>
+                                <h4 class="text-xl font-bold border-b-2 border-indigo-200 pb-2 mb-4 responsive-h2">Projek Utama</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div class="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                        <strong class="font-semibold text-gray-800">S3PTIS Kedah</strong>
+                                        <p class="text-xs text-gray-600 mt-1">Sistem Pengurusan Pemusatan Teknikal ICT Sekolah. <a href="https://www.ptiskedah.net" target="_blank" class="text-blue-600 hover:underline">ptiskedah.net</a></p>
+                                    </div>
+                                    <div class="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                        <strong class="font-semibold text-gray-800">Smart Booking System</strong>
+                                        <p class="text-xs text-gray-600 mt-1">Digunakan di PPD, IPGM & Sekolah.</p>
+                                    </div>
+                                    <div class="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                        <strong class="font-semibold text-gray-800">Sistem Kelas Seliaan Negeri</strong>
+                                        <p class="text-xs text-gray-600 mt-1">Permohonan dan Semakan KSN Kedah.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Buku & Lain-lain -->
+                            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="text-xl font-bold border-b-2 border-teal-200 pb-2 mb-4 responsive-h2">Buku</h4>
+                                    <div class="bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-200">
+                                        <p class="text-base font-semibold text-gray-700">Gemini AI : Toolkit Rahsia Setiap PTIS</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold border-b-2 border-purple-200 pb-2 mb-4 responsive-h2">Lain-lain</h4>
+                                    <ul class="space-y-2 text-sm text-left list-disc list-inside bg-white/60 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-200">
+                                        <li>Sistem Pengurusan Kokurikulum</li>
+                                        <li>Sistem Perekodan Eviden PAJSK</li>
+                                        <li>Smart PSO & Sistem Cabutan Slip Sekolah</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Slaid 3: Infografik Generative AI -->
-                <div class="slide absolute w-full h-full p-6 md:p-8 flex-col items-center justify-center bg-gray-50 overflow-y-auto">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">10 AI Generatif Terkenal</h2>
-                    <div class="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 text-center">
-                        
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">ChatGPT</h3><p class="text-xs text-gray-600 mt-1">Perbualan & Penjanaan Teks</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Google Gemini</h3><p class="text-xs text-gray-600 mt-1">Multimodal (Teks, Imej, Audio)</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Claude</h3><p class="text-xs text-gray-600 mt-1">Konteks Panjang & Keselamatan</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Meta Llama</h3><p class="text-xs text-gray-600 mt-1">Sumber Terbuka & Penyelidikan</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Midjourney</h3><p class="text-xs text-gray-600 mt-1">Penjanaan Imej Artistik</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">DALL-E 3</h3><p class="text-xs text-gray-600 mt-1">Imej Kreatif (dari OpenAI)</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Stable Diffusion</h3><p class="text-xs text-gray-600 mt-1">Imej (Sumber Terbuka)</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Microsoft Copilot</h3><p class="text-xs text-gray-600 mt-1">Pembantu di Windows & 365</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Perplexity AI</h3><p class="text-xs text-gray-600 mt-1">Enjin Jawapan (dengan Sumber)</p></div>
-                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700">Suno AI</h3><p class="text-xs text-gray-600 mt-1">Penjanaan Muzik & Lagu</p></div>
+                <div class="slide absolute w-full h-full p-6 md:p-8 flex-col bg-gray-50 overflow-y-auto">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center responsive-h2">10 AI Generatif Terkenal</h2>
+                    <div class="w-full max-w-4xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 text-center">
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">ChatGPT</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Perbualan & Penjanaan Teks</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Google Gemini</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Multimodal (Teks, Imej, Audio)</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Claude</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Konteks Panjang & Keselamatan</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Meta Llama</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Sumber Terbuka & Penyelidikan</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Midjourney</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Penjanaan Imej Artistik</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">DALL-E 3</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Imej Kreatif (dari OpenAI)</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Stable Diffusion</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Imej (Sumber Terbuka)</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Microsoft Copilot</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Pembantu di Windows & 365</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Perplexity AI</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Enjin Jawapan (dengan Sumber)</p></div>
+                        <div class="bg-white p-3 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center justify-center aspect-square"><h3 class="font-bold text-sm md:text-base text-indigo-700 responsive-text-sm">Suno AI</h3><p class="text-xs text-gray-600 mt-1 responsive-text-xs">Penjanaan Muzik & Lagu</p></div>
                     </div>
                 </div>
                 
+                <!-- Slaid-slaid lain dikekalkan seperti sedia ada... -->
                 <!-- Slaid 4: AI untuk Pengekodan -->
                 <div class="slide absolute w-full h-full p-6 md:p-8 flex-col items-center justify-center bg-gray-50 overflow-y-auto">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">AI Terkenal untuk Pengekodan</h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center responsive-h2">AI Terkenal untuk Pengekodan</h2>
                     <div class="w-full max-w-4xl grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col justify-center text-center"><h3 class="font-bold text-base md:text-lg text-indigo-700">GitHub Copilot</h3><p class="text-xs md:text-sm text-gray-600 mt-2">Rakan pengekodan AI dalam editor kod anda (cth: VS Code).</p></div>
                         <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col justify-center text-center"><h3 class="font-bold text-base md:text-lg text-indigo-700">Devin AI</h3><p class="text-xs md:text-sm text-gray-600 mt-2">Digelar sebagai "jurutera perisian AI" pertama yang autonomi.</p></div>
@@ -167,9 +202,8 @@
 
                 <!-- Slaid 6: Kenapa Gemini? -->
                 <div class="slide absolute w-full h-full p-6 md:p-8 flex-col items-center justify-center bg-gray-50 overflow-y-auto">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Kenapa Gemini?</h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center responsive-h2">Kenapa Gemini?</h2>
                     <div class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        
                         <div class="bg-white p-5 rounded-xl shadow-lg border-t-4 border-indigo-400 flex items-center space-x-4 hover:shadow-xl transition-shadow"><div class="flex-shrink-0 bg-indigo-100 p-3 rounded-full"><svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg></div><div><h3 class="font-bold text-lg text-gray-800">Faham Bahasa Biasa</h3><p class="text-sm text-gray-600 mt-1">Berinteraksi seperti berbual, memudahkan sebarang tugasan.</p></div></div>
                         <div class="bg-white p-5 rounded-xl shadow-lg border-t-4 border-sky-400 flex items-center space-x-4 hover:shadow-xl transition-shadow"><div class="flex-shrink-0 bg-sky-100 p-3 rounded-full"><svg class="w-8 h-8 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div><div><h3 class="font-bold text-lg text-gray-800">Kebolehan Membaca Fail</h3><p class="text-sm text-gray-600 mt-1">Menganalisis kandungan daripada fail PDF, dokumen dan lain-lain.</p></div></div>
                         <div class="bg-white p-5 rounded-xl shadow-lg border-t-4 border-emerald-400 flex items-center space-x-4 hover:shadow-xl transition-shadow"><div class="flex-shrink-0 bg-emerald-100 p-3 rounded-full"><svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg></div><div><h3 class="font-bold text-lg text-gray-800">Kawalan Memori</h3><p class="text-sm text-gray-600 mt-1">Mengingati konteks perbualan untuk jawapan yang lebih relevan.</p></div></div>
@@ -179,19 +213,17 @@
 
                 <!-- Slaid 7: Metrik Penggunaan Digital -->
                 <div class="slide absolute w-full h-full p-6 md:p-8 flex-col items-center justify-center bg-gray-50 overflow-y-auto">
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4 text-center">Metrik Utama Penggunaan Digital Malaysia (2023-2024)</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4 text-center responsive-h2">Metrik Utama Penggunaan Digital Malaysia (2023-2024)</h2>
                      <div class="w-full max-w-4xl flex flex-col md:flex-row gap-4">
-                        <!-- Bahagian Kiri: Data Utama -->
                         <div class="w-full md:w-1/2 grid grid-cols-2 gap-3">
                             <div class="bg-white p-3 rounded-lg shadow-md text-center border-l-4 border-blue-500"><p class="text-2xl font-bold text-blue-600">97.4%</p><p class="text-xs text-gray-600">Kadar Penembusan Internet</p></div>
                             <div class="bg-white p-3 rounded-lg shadow-md text-center border-l-4 border-green-500"><p class="text-2xl font-bold text-green-600">28.68 Juta</p><p class="text-xs text-gray-600">Pengguna Media Sosial</p></div>
                             <div class="bg-white p-3 rounded-lg shadow-md text-center border-l-4 border-purple-500"><p class="text-2xl font-bold text-purple-600">8j 17m</p><p class="text-xs text-gray-600">Masa Harian Dalam Talian</p></div>
                             <div class="bg-white p-3 rounded-lg shadow-md text-center border-l-4 border-red-500"><p class="text-2xl font-bold text-red-600">Belia (15-24)</p><p class="text-xs text-gray-600">Kumpulan Pengguna Tertinggi</p></div>
                         </div>
-                        <!-- Bahagian Kanan: Teks Huraian -->
                         <div class="w-full md:w-1/2 bg-white p-4 rounded-lg shadow-md flex flex-col justify-center">
                              <h3 class="font-bold text-lg text-gray-700 mb-2">Murid Malaysia: Warganegara Digital Sejati</h3>
-                             <p class="text-sm text-gray-600">
+                             <p class="text-sm text-gray-600 responsive-p">
                                 Data terkini mengesahkan akses digital kini adalah norma, bukan lagi keistimewaan. Dengan purata <strong>8 jam 17 minit</strong> dalam talian setiap hari, dunia murid kini didominasi oleh persekitaran digital yang dinamik, terutamanya melalui peranti mudah alih.
                             </p>
                         </div>
@@ -200,9 +232,8 @@
 
                 <!-- Slaid 8: Pembelajaran Dahulu vs Sekarang -->
                  <div class="slide absolute w-full h-full p-6 md:p-8 flex-col items-center justify-center bg-gray-50 overflow-y-auto">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Evolusi Pembelajaran: ABC untuk Era Digital</h2>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center responsive-h2">Evolusi Pembelajaran: ABC untuk Era Digital</h2>
                     <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Kolum 1: Pembelajaran Terdahulu & Konsep Teknologi -->
                         <div class="space-y-4">
                             <div class="bg-gray-200 p-4 rounded-lg text-center">
                                 <h4 class="font-semibold text-gray-700">Pembelajaran Terdahulu</h4>
@@ -217,7 +248,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- Kolum 2: Konsep Nilai & Kemahiran -->
                         <div class="bg-white p-4 rounded-xl shadow-lg border-t-4 border-teal-500">
                              <h3 class="font-bold text-lg text-teal-700 mb-3">ABC Alternatif: Nilai & Kemahiran Insaniah</h3>
                              <ul class="space-y-2 text-sm">
@@ -237,10 +267,8 @@
                 <!-- Slaid 10: Interaktif Nombor Bulat -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-start p-4 md:p-6 bg-blue-50 overflow-y-auto">
                     <div class="w-full max-w-4xl text-center">
-                        <h2 class="text-xl font-bold text-blue-800">Topik: Nombor Bulat</h2>
+                        <h2 class="text-xl font-bold text-blue-800 responsive-h2">Topik: Nombor Bulat</h2>
                         <p class="text-sm text-blue-600 mb-3">Standard Pembelajaran: Membandingkan dan menyusun nombor hingga 1000</p>
-                        
-                        <!-- Paparan Soalan -->
                         <div class="bg-white p-4 rounded-lg shadow-md mb-3 text-left">
                             <p class="font-semibold text-gray-700">Jom selesaikan masalah ini:</p>
                             <div class="flex justify-around text-center my-3">
@@ -249,8 +277,6 @@
                                 <div class="p-2 bg-yellow-100 rounded-lg w-1/3 mx-1"><strong>Chong</strong><p class="text-2xl font-bold">415</p>guli</div>
                             </div>
                         </div>
-
-                        <!-- Soalan 1: Interaktif -->
                         <div class="bg-white p-4 rounded-lg shadow-md mb-3">
                             <p class="font-semibold mb-2">1. Siapakah yang mempunyai bilangan guli paling banyak?</p>
                             <div class="flex justify-center space-x-3">
@@ -259,8 +285,6 @@
                                 <button onclick="checkMostMarbles('Chong')" class="interactive-btn bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600">Chong</button>
                             </div>
                         </div>
-
-                        <!-- Soalan 2: Interaktif -->
                          <div class="bg-white p-4 rounded-lg shadow-md mb-3">
                             <p class="font-semibold mb-2">2. Susun nombor guli daripada yang paling sedikit kepada yang paling banyak.</p>
                             <div class="flex items-center justify-center space-x-2">
@@ -270,8 +294,6 @@
                                 <button id="checkOrderBtn" class="interactive-btn bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600">Semak</button>
                             </div>
                         </div>
-                        
-                        <!-- Ruang Maklum Balas Cikgu AI -->
                         <div id="aiTeacherFeedback" class="mt-2 p-3 rounded-lg text-sm text-left flex items-center hidden">
                             <div id="feedbackIcon" class="w-12 h-12 mr-3 flex-shrink-0 flex items-center justify-center"></div>
                             <p id="feedbackText" class="flex-1"></p>
@@ -288,7 +310,7 @@
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-6 md:p-8 bg-gray-100 overflow-y-auto">
                     <div class="w-full max-w-4xl text-center">
                         <div class="bg-white p-4 rounded-xl shadow-lg border-t-4 border-red-500 mb-4">
-                            <p class="text-lg md:text-xl font-semibold text-gray-700 italic">"Kita tidak melakukan apa-apa kesalahan, tetapi entah bagaimana, kita tewas."</p>
+                            <p class="text-lg md:text-xl font-semibold text-gray-700 italic responsive-p">"Kita tidak melakukan apa-apa kesalahan, tetapi entah bagaimana, kita tewas."</p>
                             <p class="text-sm text-gray-500 mt-1">- Stephen Elop, CEO Nokia</p>
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
@@ -303,8 +325,8 @@
 
                 <!-- Slaid 13: Punca Sebenar -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-8 bg-indigo-700 text-white text-center">
-                    <h2 class="text-2xl md:text-3xl font-bold mb-4">Tetapi... Kesalahan Sebenar Ialah:</h2>
-                    <p class="max-w-2xl text-lg md:text-xl leading-relaxed">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 responsive-h2">Tetapi... Kesalahan Sebenar Ialah:</h2>
+                    <p class="max-w-2xl text-lg md:text-xl leading-relaxed responsive-p">
                         Bukan pada apa yang mereka <span class="font-bold underline">lakukan</span>, tetapi pada apa yang mereka <span class="bg-red-500 px-2 py-1 rounded">tidak lakukan</span>. Mereka gagal melihat bahawa peraturan permainan telah berubah daripada <span class="font-bold">perkakasan terbaik</span> kepada <span class="font-bold">ekosistem terbaik</span> (perisian, aplikasi, pengalaman pengguna).
                     </p>
                 </div>
@@ -317,9 +339,9 @@
                 <!-- Slaid 15: Konteks Pendidikan 1 -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-6 md:p-8 bg-gray-50 overflow-y-auto">
                     <div class="max-w-3xl bg-white rounded-xl shadow-lg p-6">
-                        <p class="text-base font-semibold text-gray-700 italic mb-3">"Kita tak buat salah apa-apa… tapi entah macam mana, kita tetap kalah.”</p>
+                        <p class="text-base font-semibold text-gray-700 italic mb-3 responsive-p">"Kita tak buat salah apa-apa… tapi entah macam mana, kita tetap kalah.”</p>
                         <h3 class="text-lg font-bold text-indigo-700 mb-2">Konteks Pendidikan Malaysia:</h3>
-                        <p class="text-sm text-gray-600 leading-relaxed">
+                        <p class="text-sm text-gray-600 leading-relaxed responsive-text-sm">
                             Seorang guru yang mengajar mengikut buku teks, RPH diikuti dengan sempurna, dan pelajarnya cemerlang dalam peperiksaan berasaskan hafalan. Guru ini "tidak buat salah" mengikut metrik tradisional.
                             <br><br>
                             Namun, beliau "kalah" jika pelajarnya tidak mempunyai kemahiran berfikir kritis, kreatif, dan celik digital untuk era IR 4.0. Beliau mungkin menghasilkan pelajar skor 'A', tetapi bukan pelajar yang <span class="font-bold">bersedia untuk masa hadapan</span>.
@@ -330,9 +352,9 @@
                 <!-- Slaid 16: Konteks Pendidikan 2 -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-6 md:p-8 bg-gray-50 overflow-y-auto">
                      <div class="max-w-3xl bg-white rounded-xl shadow-lg p-6">
-                        <p class="text-base font-semibold text-gray-700 italic mb-3">"Mereka ikut semua rules bisnes orang dulu-dulu..."</p>
+                        <p class="text-base font-semibold text-gray-700 italic mb-3 responsive-p">"Mereka ikut semua rules bisnes orang dulu-dulu..."</p>
                         <h3 class="text-lg font-bold text-teal-700 mb-2">Konteks Pendidikan Malaysia:</h3>
-                        <p class="text-sm text-gray-600 leading-relaxed">
+                        <p class="text-sm text-gray-600 leading-relaxed responsive-text-sm">
                             Sebuah Sekolah Berprestasi Tinggi (SBT) yang selesa dengan rekod cemerlangnya, terus menggunakan kaedah pengajaran yang sama kerana "terbukti berkesan". Mereka "ikut semua rules".
                             <br><br>
                             Namun, mereka mungkin ketinggalan dalam <span class="font-bold">penerapan teknologi pendidikan</span> atau pembelajaran berasaskan projek. Kesetiaan ibu bapa akan terhakis apabila mereka sedar sekolah lain menawarkan pendidikan yang lebih <span class="font-bold">relevan dengan zaman</span>.
@@ -343,9 +365,9 @@
                 <!-- Slaid 17: Konteks Pendidikan 3 -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-6 md:p-8 bg-gray-50 overflow-y-auto">
                      <div class="max-w-3xl bg-white rounded-xl shadow-lg p-6">
-                        <p class="text-base font-semibold text-gray-700 italic mb-3">"Perubahan Yang Mereka Tak Nampak..."</p>
+                        <p class="text-base font-semibold text-gray-700 italic mb-3 responsive-p">"Perubahan Yang Mereka Tak Nampak..."</p>
                         <h3 class="text-lg font-bold text-amber-700 mb-2">Konteks Pendidikan Malaysia:</h3>
-                        <p class="text-sm text-gray-600 leading-relaxed">
+                        <p class="text-sm text-gray-600 leading-relaxed responsive-text-sm">
                             Dulu, nilai perpustakaan diukur pada <span class="line-through">jumlah buku fizikal</span>. Hari ini, nilainya terletak pada <span class="font-bold">akses kepada pangkalan data digital</span>, e-buku, dan kemudahan kolaboratif. 
                             <br><br>
                             Sekolah yang masih berbangga dengan "bilangan buku" tetapi tiada akses internet laju sedang terlepas pandang anjakan ini. Fokus telah beralih daripada <b class="text-red-600">pemilikan sumber</b> kepada <b class="text-green-600">akses kepada maklumat</b>.
@@ -356,37 +378,20 @@
                 <!-- Slaid 18: Infografik Kesimpulan -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-4 md:p-6 bg-gray-100 overflow-y-auto">
                     <div class="w-full max-w-4xl text-center">
-                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Pengajaran Kisah Nokia Dalam Pendidikan</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2 responsive-h2">Pengajaran Kisah Nokia Dalam Pendidikan</h2>
                         <p class="text-gray-600 mb-4">Ia bukan tentang teknologi, tetapi tentang <span class="font-bold">minda</span>.</p>
-                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                            <!-- Kad 1: Relevansi -->
-                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-blue-500">
-                                <h4 class="font-bold text-blue-800 text-lg">Relevansi Adalah Matlamat Utama</h4>
-                                <p class="text-xs text-gray-600 mt-1">Cemerlang dalam peperiksaan tidak menjamin relevansi pelajar pada masa hadapan. Adakah kita menyediakan mereka untuk dunia 10 tahun dari sekarang?</p>
-                            </div>
-                            <!-- Kad 2: Inovasi -->
-                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-green-500">
-                                <h4 class="font-bold text-green-800 text-lg">Inovasi Adalah Amalan Harian</h4>
-                                <p class="text-xs text-gray-600 mt-1">Bukan sekadar untuk pertandingan. Ia adalah budaya mencuba kaedah baharu dan mengintegrasi alatan digital secara kreatif dan berterusan.</p>
-                            </div>
-                            <!-- Kad 3: Peka -->
-                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-yellow-500">
-                                <h4 class="font-bold text-yellow-800 text-lg">Peka dengan Perubahan Dunia Luar</h4>
-                                <p class="text-xs text-gray-600 mt-1">Perubahan dipacu oleh trend teknologi dan sosial (AI, media sosial). Pendidik perlu peka dan mengadaptasi pedagogi dengan realiti semasa.</p>
-                            </div>
-                            <!-- Kad 4: Berani -->
-                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-red-500">
-                                <h4 class="font-bold text-red-800 text-lg">Berani Mencabar Amalan Sedia Ada</h4>
-                                <p class="text-xs text-gray-600 mt-1">Jangan tunggu arahan. Walaupun sesuatu kaedah telah lama berjaya, berani cuba pendekatan baharu seperti 'blended learning' atau pembelajaran berasaskan projek.</p>
-                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-blue-500"><h4 class="font-bold text-blue-800 text-lg">Relevansi Adalah Matlamat Utama</h4><p class="text-xs text-gray-600 mt-1">Cemerlang dalam peperiksaan tidak menjamin relevansi pelajar pada masa hadapan. Adakah kita menyediakan mereka untuk dunia 10 tahun dari sekarang?</p></div>
+                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-green-500"><h4 class="font-bold text-green-800 text-lg">Inovasi Adalah Amalan Harian</h4><p class="text-xs text-gray-600 mt-1">Bukan sekadar untuk pertandingan. Ia adalah budaya mencuba kaedah baharu dan mengintegrasi alatan digital secara kreatif dan berterusan.</p></div>
+                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-yellow-500"><h4 class="font-bold text-yellow-800 text-lg">Peka dengan Perubahan Dunia Luar</h4><p class="text-xs text-gray-600 mt-1">Perubahan dipacu oleh trend teknologi dan sosial (AI, media sosial). Pendidik perlu peka dan mengadaptasi pedagogi dengan realiti semasa.</p></div>
+                            <div class="bg-white p-4 rounded-xl shadow-lg border-l-4 border-red-500"><h4 class="font-bold text-red-800 text-lg">Berani Mencabar Amalan Sedia Ada</h4><p class="text-xs text-gray-600 mt-1">Jangan tunggu arahan. Walaupun sesuatu kaedah telah lama berjaya, berani cuba pendekatan baharu seperti 'blended learning' atau pembelajaran berasaskan projek.</p></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Slaid 19: Kod QR Buku Teks -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-6 md:p-8 bg-gray-50">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Imbas Kod QR untuk Muat Turun Buku Teks</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 responsive-h2">Imbas Kod QR untuk Muat Turun Buku Teks</h2>
                     <img src="https://i.ibb.co/rGfJBX5x/Buku-Teks-2.png" alt="Kod QR untuk Buku Teks PDF" class="w-64 h-64 object-contain rounded-lg shadow-lg">
                     <p class="mt-4 text-gray-600">Gunakan telefon pintar anda untuk mengimbas kod di atas.</p>
                 </div>
@@ -394,30 +399,21 @@
                 <!-- Slaid 20: Persediaan Hands On -->
                 <div class="slide absolute w-full h-full flex-col items-center justify-center p-6 md:p-8 bg-gray-50">
                     <div class="w-full max-w-2xl text-center">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Persediaan Sesi Hands On</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4 responsive-h2">Persediaan Sesi Hands On</h2>
                         <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-lg">1. Buku Teks PDF</h3>
-                                <button onclick="window.open('https://drive.google.com/file/d/1dtp51iac1rD0rjKHODqVyURAvMEJxhS2/view?usp=sharing', '_blank')" class="link-btn bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 text-sm font-medium">Pautan</button>
-                            </div>
+                            <div class="flex items-center justify-between"><h3 class="font-semibold text-lg">1. Buku Teks PDF</h3><button onclick="window.open('https://drive.google.com/file/d/1dtp51iac1rD0rjKHODqVyURAvMEJxhS2/view?usp=sharing', '_blank')" class="link-btn bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 text-sm font-medium">Pautan</button></div>
                              <hr>
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-lg">2. Visual Studio Code</h3>
-                                <button onclick="window.open('https://code.visualstudio.com/', '_blank')" class="link-btn bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 text-sm font-medium">Pautan</button>
-                            </div>
+                            <div class="flex items-center justify-between"><h3 class="font-semibold text-lg">2. Visual Studio Code</h3><button onclick="window.open('https://code.visualstudio.com/', '_blank')" class="link-btn bg-gray-700 text-white px-5 py-2 rounded-lg hover:bg-gray-800 text-sm font-medium">Pautan</button></div>
                              <hr>
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-lg">3. Gemini AI</h3>
-                                <button onclick="window.open('https://gemini.google.com', '_blank')" class="link-btn bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-700 text-sm font-medium">Pautan</button>
-                            </div>
+                            <div class="flex items-center justify-between"><h3 class="font-semibold text-lg">3. Gemini AI</h3><button onclick="window.open('https://gemini.google.com', '_blank')" class="link-btn bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-700 text-sm font-medium">Pautan</button></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Slaid 21 (Terima Kasih) -->
                 <div class="slide absolute w-full h-full p-8 flex-col items-center justify-center text-center bg-gradient-to-br from-green-400 to-teal-500 text-white">
-                     <h2 class="text-3xl font-bold mb-4">Terima Kasih</h2>
-                    <p class="text-xl">Kita akan teruskan dengan sesi hands on.</p>
+                     <h2 class="text-3xl font-bold mb-4 responsive-h2">Terima Kasih</h2>
+                    <p class="text-xl responsive-p">Kita akan teruskan dengan sesi hands on.</p>
                 </div>
 
             </div>
@@ -438,7 +434,7 @@
                 </div>
             </div>
         </div>
-        <p class="text-center text-gray-500 text-xs mt-4">Disediakan oleh Tc. Bakrizal Fahmi bin Abu Bakar dengan kerjasama rakan strategik : Gemini AI</p>
+        <p class="absolute bottom-2 text-center text-gray-500 text-xs mt-4">Disediakan oleh Tc. Bakrizal Fahmi bin Abu Bakar dengan kerjasama rakan strategik : Gemini AI</p>
     </div>
 
     <script>
@@ -459,10 +455,7 @@
         function updateTimerDisplay() {
             const timerDisplay = document.getElementById('timer-display');
             if (!timerDisplay) return;
-
-            if (timerStartTime === null) {
-                return; // Jangan buat apa-apa jika pemasa belum bermula
-            }
+            if (timerStartTime === null) return;
 
             const elapsedSeconds = Math.floor((Date.now() - timerStartTime) / 1000);
             const remainingSeconds = Math.max(0, totalDurationInSeconds - elapsedSeconds);
@@ -480,14 +473,11 @@
         }
 
         function showSlide(index) {
-            slides.forEach((slide) => {
-                slide.classList.remove('active');
-            });
+            slides.forEach((slide) => slide.classList.remove('active'));
             if (slides[index]) {
                 slides[index].classList.add('active');
             }
 
-            // Mula pemasa dan paparkannya apabila slaid ke-2 (indeks 1) dipaparkan buat kali pertama
             if (index >= 1 && timerStartTime === null) {
                 timerStartTime = Date.now();
                 document.getElementById('timer-container').classList.remove('hidden');
@@ -495,7 +485,6 @@
                     timerIntervalId = setInterval(updateTimerDisplay, 1000);
                 }
             }
-
             updateNavigation();
         }
 
@@ -507,38 +496,22 @@
         
         // --- Logik Skrin Penuh ---
         function toggleFullScreen() {
-            if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-                if (mainContent.requestFullscreen) {
-                    mainContent.requestFullscreen();
-                } else if (mainContent.mozRequestFullScreen) { /* Firefox */
-                    mainContent.mozRequestFullScreen();
-                } else if (mainContent.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                    mainContent.webkitRequestFullscreen();
-                } else if (mainContent.msRequestFullscreen) { /* IE/Edge */
-                    mainContent.msRequestFullscreen();
-                }
+            if (!document.fullscreenElement) {
+                mainContent.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.mozCancelFullScreen) { /* Firefox */
-                    document.mozCancelFullScreen();
-                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { /* IE/Edge */
-                    document.msExitFullscreen();
-                }
+                document.exitFullscreen();
             }
         }
 
         fullscreenBtn.addEventListener('click', toggleFullScreen);
-
         nextBtn.addEventListener('click', () => {
             if (currentSlide < slides.length - 1) {
                 currentSlide++;
                 showSlide(currentSlide);
             }
         });
-
         prevBtn.addEventListener('click', () => {
             if (currentSlide > 0) {
                 currentSlide--;
@@ -552,56 +525,36 @@
         const feedbackBox = document.getElementById('aiTeacherFeedback');
         const feedbackText = document.getElementById('feedbackText');
         const feedbackIcon = document.getElementById('feedbackIcon');
-
-        // SVG Icons
         const correctIconSVG = `<svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
         const incorrectIconSVG = `<svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-        
-        // Dapatkan elemen butang semak. Pastikan kod ini boleh diakses.
         const checkOrderBtn = document.getElementById('checkOrderBtn');
 
-        // Fungsi-fungsi untuk maklum balas
         function showFeedback(message, isCorrect) {
-            if (!feedbackBox) return; // Keluar jika elemen tidak wujud
+            if (!feedbackBox) return;
             feedbackText.innerHTML = message;
             feedbackIcon.innerHTML = isCorrect ? correctIconSVG : incorrectIconSVG;
-            
-            feedbackBox.classList.remove('hidden', 'bg-green-100', 'border-green-500', 'text-green-800', 'bg-red-100', 'border-red-500', 'text-red-800');
-            
-            if (isCorrect) {
-                feedbackBox.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
-            } else {
-                feedbackBox.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
-            }
-            feedbackBox.style.borderWidth = '1px';
+            feedbackBox.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+            feedbackBox.classList.add(isCorrect ? 'bg-green-100' : 'bg-red-100', isCorrect ? 'text-green-800' : 'text-red-800');
         }
 
-        // Fungsi ini perlu diletakkan di luar skop DOMContentLoaded atau seumpamanya jika dipanggil dari `onclick`
         function checkMostMarbles(name) {
             if (name === 'Chong') {
-                showFeedback("<strong>Bagus! Jawapan awak betul.</strong><br>Chong mempunyai 415 biji guli. Apabila kita membandingkan 325, 287, dan 415, nombor 415 adalah yang paling besar kerana nilai digit ratusnya (4) adalah yang tertinggi.", true);
-            } else if (name === 'Ali') {
-                showFeedback("<strong>Hampir tepat!</strong><br>Ali ada 325 guli, memang lebih banyak daripada Bakar (287). Tapi, cuba bandingkan dengan Chong (415). Lihat nombor di rumah ratus: Ali (3) dan Chong (4). Nombor mana yang lebih besar?", false);
-            } else { // Bakar
-                showFeedback("<strong>Jawapan ini kurang tepat.</strong><br>Bakar ada 287 guli. Cuba kita lihat nombor di rumah ratus: Bakar (2), Ali (3), Chong (4). Nombor 2 adalah yang paling kecil, jadi Bakar ada guli paling sedikit. Kita nak cari yang paling banyak.", false);
+                showFeedback("<strong>Bagus! Jawapan awak betul.</strong><br>Chong mempunyai 415 biji guli, iaitu yang paling banyak.", true);
+            } else {
+                showFeedback("<strong>Hampir tepat! Cuba lagi.</strong><br>Bandingkan nilai digit ratus untuk setiap nombor.", false);
             }
         }
 
-        if (checkOrderBtn) { // Pastikan butang wujud sebelum menambah event listener
+        if (checkOrderBtn) {
             checkOrderBtn.addEventListener('click', () => {
-                const val1 = document.getElementById('num1').value;
-                const val2 = document.getElementById('num2').value;
-                const val3 = document.getElementById('num3').value;
-
-                if (val1 == 287 && val2 == 325 && val3 == 415) {
-                    showFeedback("<strong>Syabas, awak hebat!</strong><br>Susunan nombor itu betul: 287 (paling sedikit), diikuti 325, dan 415 (paling banyak). Awak telah berjaya membanding dan menyusun nombor dengan baik!", true);
+                const vals = [document.getElementById('num1').value, document.getElementById('num2').value, document.getElementById('num3').value];
+                if (vals[0] == 287 && vals[1] == 325 && vals[2] == 415) {
+                    showFeedback("<strong>Syabas, awak hebat!</strong><br>Susunan nombor itu betul.", true);
                 } else {
-                    showFeedback("<strong>Jawapan belum tepat. Jangan putus asa!</strong><br>Ingat, kita perlu susun dari nilai terkecil ke terbesar. Cuba bandingkan nombor-nombor itu sekali lagi. Nombor mana yang paling kecil antara 287, 325 dan 415?", false);
+                    showFeedback("<strong>Jawapan belum tepat.</strong><br>Ingat, susun dari nilai terkecil ke terbesar.", false);
                 }
             });
         }
-
     </script>
 </body>
 </html>
-
