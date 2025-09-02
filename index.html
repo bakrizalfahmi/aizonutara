@@ -587,9 +587,11 @@
 
         function checkMostMarbles(name) {
             if (name === 'Chong') {
-                showFeedback("<strong>Bagus! Jawapan awak betul.</strong><br>Chong mempunyai 415 biji guli, iaitu yang paling banyak.", true);
-            } else {
-                showFeedback("<strong>Hampir tepat! Cuba lagi.</strong><br>Bandingkan nilai digit ratus untuk setiap nombor.", false);
+                showFeedback("<strong>Bagus! Jawapan awak betul.</strong><br>Chong mempunyai 415 biji guli. Angka <strong>4</strong> pada nilai ratusnya adalah yang paling besar berbanding Ali (3) dan Bakar (2).", true);
+            } else if (name === 'Ali') {
+                showFeedback("<strong>Hampir tepat!</strong><br>Ali (325 guli) memang mempunyai lebih banyak guli daripada Bakar (287). Tetapi, cuba bandingkan pula dengan Chong (415). Adakah Ali masih yang paling banyak?", false);
+            } else { // Ini akan menangani kes untuk 'Bakar'
+                showFeedback("<strong>Cuba lagi ya!</strong><br>Bakar hanya mempunyai 287 biji guli. Angka <strong>2</strong> pada nilai ratusnya adalah yang paling kecil, jadi dia mempunyai guli yang paling sedikit.", false);
             }
         }
 
@@ -606,4 +608,3 @@
     </script>
 </body>
 </html>
-
